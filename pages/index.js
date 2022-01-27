@@ -1,19 +1,40 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
 import styles from "../styles/Home.module.css";
 import CharacktersPage from "./CharacktersPage";
 
 export default function Home({ charackters }) {
+  const [value, setValue] = useState(8);
+
+  const ClickHandler = () => {
+    setValue(value + 8);
+  };
+
   return (
-    <div className="bg-zinc-900 min-h-screen px-">
-      <h1 className="text-center text-4xl font-bold text-white py-10">
-        Welcome, this are the Charackters! 🚀
-      </h1>
-      <div className="container mx-auto">
-        {charackters.map((charackter) => (
-          <CharacktersPage {...charackter} key={charackter.id} />
-        ))}
+    <div className="bg-zinc-900 min-h-screen ">
+      <Navbar />
+      <div className="flex flex-wrap  container mx-auto justify-center gap-14">
+        {charackters
+          .filter((charackter) => charackter.id !== 25)
+          .map(
+            (charackter, index) =>
+              index < value && (
+                <CharacktersPage {...charackter} key={charackter.id} />
+              )
+          )}
       </div>
+      {value < charackters.length && (
+        <button
+          onClick={ClickHandler}
+          className="text-gray-300 w-full mt-12 hover:text-white text-xl "
+        >
+          SHOW MORE
+        </button>
+      )}
+      <Footer />
     </div>
   );
 }
